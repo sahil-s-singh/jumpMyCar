@@ -1,71 +1,58 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
-import { FIREBASE_AUTH as auth } from '../../FirebaseConfig';
+import { View, TextInput, Button, Alert, Text } from 'react-native';
+import { useAuthStore } from '../../store/authStore';
+import { loginUser } from '../../services/authService';
 import { useRouter } from 'expo-router';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
-const LoginScreen: React.FC = () => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+const LoginScreen = () => {
   const router = useRouter();
 
-  const handleSignUp = async (): Promise<void> => {
-    try {
-      const res = await createUserWithEmailAndPassword(auth, email, password);
-      Alert.alert('User created successfully!');
-      router.push('/home');
-    } catch (error: any) {
-      Alert.alert('Sign Up Error', error.message);
-    }
-  };
+  const [email, setEmail] = useState<null | string>(null);
+  const [password, setPassword] = useState('');
+  const { login } = useAuthStore();
 
-  const handleSignIn = async (): Promise<void> => {
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert('Welcome back!');
+      const userCredential = await loginUser(email, password);
+      const { user } = userCredential;
+      login({ uid: user.uid, email: user.email });
       router.push('/home');
     } catch (error: any) {
-      Alert.alert('Sign In Error', error.message);
+      Alert.alert('Login Failed', error.message || 'Something went wrong');
     }
   };
 
   return (
-    <View style={styles.container}>
+    <View className="flex-1 justify-center p-6">
       <TextInput
-        style={styles.input}
+        style={{ padding: 10 }}
+        className="border-b border-gray-300 mb-5"
         placeholder="Email"
-        value={email}
+        value={email ?? ''}
         onChangeText={setEmail}
         keyboardType="email-address"
-        autoCapitalize="none"
       />
       <TextInput
-        style={styles.input}
+        style={{ padding: 10 }}
+        className="border-b border-gray-300 mb-5"
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
-      <Button title="Sign Up" onPress={handleSignUp} />
-      <Button title="Sign In" onPress={handleSignIn} />
+      <Button title="Login" onPress={handleLogin} />
+      <Text
+        className="text-blue-500 mt-5 text-center"
+        onPress={() => router.push('/auth/login')}
+      >
+        Don't have an account? Sign up
+      </Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 16,
-  },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 16,
-    paddingHorizontal: 8,
-    borderRadius: 8,
-  },
-});
 
 export default LoginScreen;

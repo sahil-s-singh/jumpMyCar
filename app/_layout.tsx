@@ -1,4 +1,3 @@
-// app/_layout.tsx
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -16,7 +15,7 @@ import { ActivityIndicator, View } from 'react-native';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: 'home', // Still specify home as the initial route
+  initialRouteName: 'home',
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -75,12 +74,8 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {user ? (
-          <Stack.Screen name="home" options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-        )}
+      <Stack screenOptions={{headerShown: false}}>
+        <Stack.Screen name="auth/login" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
   );
