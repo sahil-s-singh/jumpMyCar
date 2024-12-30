@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH as auth } from '../FirebaseConfig';
-
 import { useColorScheme } from '@/components/useColorScheme';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
@@ -27,7 +26,9 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (error) throw error;
+    if (error) {
+      throw error;
+    }
   }, [error]);
 
   if (!loaded) {
@@ -42,6 +43,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
+  // Check Firebase authentication state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
@@ -58,6 +60,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
     return () => unsubscribe();
   }, []);
 
+  // Hide splash screen after loading
   useEffect(() => {
     if (!authLoading && loaded) {
       SplashScreen.hideAsync();
@@ -66,7 +69,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 
   if (authLoading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View className="flex-1 justify-center items-center bg-white">
         <ActivityIndicator size="large" />
       </View>
     );
@@ -74,8 +77,22 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{headerShown: false}}>
-        <Stack.Screen name="auth/login" options={{ headerShown: false }} />
+      <Stack
+        screenOptions={{
+          headerShown: false, // Set to `false` for all screens
+        }}
+      >
+        {/* Public screens */}
+        <Stack.Screen name="auth/login" />
+        <Stack.Screen name="auth/register" />
+
+        {/* Private screens */}
+        {user && (
+          <>
+            <Stack.Screen name="home" />
+            <Stack.Screen name="profile" />
+          </>
+        )}
       </Stack>
     </ThemeProvider>
   );
