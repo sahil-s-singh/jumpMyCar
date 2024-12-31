@@ -9,7 +9,6 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title} className='text-sm'>Welcome to the Home Screen!</Text>
-      <Button title="Go to Login" onPress={() => router.push('/auth/login')} />
     </View>
   );
 }
