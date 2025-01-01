@@ -1,15 +1,30 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
+import { onAuthStateChanged } from 'firebase/auth';
+import { FIREBASE_AUTH as auth } from '../FirebaseConfig';
 
-// Define the AuthStore state
 interface AuthState {
   user: { uid: string; email: string } | null;
-  login: (user: { uid: null|string; email: null|string }) => void;
-  logout: () => void;
+  loading: boolean;
 }
 
-// Create the Zustand store 
-export const useAuthStore = create<AuthState>((set: any) => ({
-  user: null,
-  login: ({ uid, email }) => set({ uid, email }), // Set user on login
-  logout: () => set({ user: null }), // Clear user on logout
-}));
+export const useAuthStore = create<AuthState>((set) => {
+  onAuthStateChanged(
+    auth,
+    (user) => {
+      if (user) {
+        set({ user: { uid: user.uid, email: user.email ?? '' }, loading: false });
+      } else {
+        set({ user: null, loading: false });
+      }
+    },
+    (error) => {
+      console.error('Error in onAuthStateChanged:', error);
+      set({ loading: false });
+    }
+  );
+
+  return {
+    user: null,
+    loading: true,
+  };
+});
