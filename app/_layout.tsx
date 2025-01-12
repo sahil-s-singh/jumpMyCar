@@ -19,6 +19,7 @@ import {
 	setupNotificationHandlers,
 } from "../services/notification.service";
 import { useAuthStore } from "@/store/authStore";
+import MapScreen from "./(protected)/MapScreen";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -71,6 +72,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 			>
 				<Stack.Screen name="auth/login" />
 				<Stack.Screen name="auth/register" />
+				<Stack.Screen name="(protected)/MapScreen" />
 				{user && (
 					<>
 						<Stack.Screen name="home" />
