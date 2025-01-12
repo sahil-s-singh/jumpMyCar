@@ -3,16 +3,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH as auth } from '../FirebaseConfig';
 
 interface AuthState {
-  user: { uid: string; email: string } | null;
+  user: { uid: string; email: string, accessToken: string } | null;
   loading: boolean;
 }
 
 export const useAuthStore = create<AuthState>((set) => {
   onAuthStateChanged(
     auth,
-    (user) => {
+    (user: any) => {
       if (user) {
-        set({ user: { uid: user.uid, email: user.email ?? '' }, loading: false });
+        set({ user: { accessToken: user.accessToken, uid: user.uid, email: user.email ?? '' }, loading: false });
       } else {
         set({ user: null, loading: false });
       }

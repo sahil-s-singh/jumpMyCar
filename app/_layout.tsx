@@ -9,6 +9,7 @@ import { useColorScheme } from '@/components/useColorScheme';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { useAuthStore } from '@/store/authStore';
+import LocationUpdater from '@/components/LocationUpdater';
 
 export { ErrorBoundary } from 'expo-router';
 
@@ -56,6 +57,8 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
   }
 
   return (
+    <>
+    <LocationUpdater />
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack
         screenOptions={{
@@ -72,5 +75,6 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
         )}
       </Stack>
     </ThemeProvider>
+    </>
   );
 }

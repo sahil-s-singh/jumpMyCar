@@ -5,10 +5,14 @@ import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const handleRequestHelp = async () => {
+    console.log('requested')
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title} className='text-sm'>Welcome to the Home Screen!</Text>
+      <Button title="Request Help" onPress={() => handleRequestHelp()} />
     </View>
   );
 }
