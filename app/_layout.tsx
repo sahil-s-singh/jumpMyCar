@@ -1,25 +1,16 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-	DarkTheme,
-	DefaultTheme,
-	ThemeProvider,
-} from "@react-navigation/native";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect, useState } from "react";
 import "react-native-reanimated";
-import { onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH as auth } from "../FirebaseConfig";
-import { useColorScheme } from "@/components/useColorScheme";
-import React from "react";
-import { ActivityIndicator, View } from "react-native";
-import {
-	registerForPushNotificationsAsync,
-	setupNotificationHandlers,
-} from "../services/notification.service";
-import { useAuthStore } from "@/store/authStore";
-import MapScreen from "./(protected)/MapScreen";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
+import { Stack } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
+import 'react-native-reanimated';
+import { useColorScheme } from '@/components/useColorScheme';
+import React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { useAuthStore } from '@/store/authStore';
+import LocationUpdater from "@/components/LocationUpdater";
 
 export { ErrorBoundary } from "expo-router";
 
@@ -49,6 +40,8 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 	const colorScheme = useColorScheme();
 	const { user, loading } = useAuthStore();
 
+	LocationUpdater();
+
 	useEffect(() => {
 		if (!loading && loaded) {
 			SplashScreen.hideAsync();
@@ -64,7 +57,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 	}
 
 	return (
-		<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+		<ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
 			<Stack
 				screenOptions={{
 					headerShown: false,
@@ -72,7 +65,6 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 			>
 				<Stack.Screen name="auth/login" />
 				<Stack.Screen name="auth/register" />
-				<Stack.Screen name="(protected)/MapScreen" />
 				{user && (
 					<>
 						<Stack.Screen name="home" />
