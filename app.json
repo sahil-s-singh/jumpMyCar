@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "JumpMyCar",
-    "slug": "jumpMyCar",
+    "name": "my-app",
+    "slug": "my-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "jumpmycar",
+    "scheme": "my-app",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -14,20 +14,13 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.jumpmycar.app",
-      "buildNumber": "1.0.0"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.jumpmycar.app",
-      "versionCode": 1,
-      "permissions": [
-        "NOTIFICATIONS"
-      ]
+      }
     },
     "web": {
       "bundler": "metro",
@@ -35,26 +28,10 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/images/splash-icon.png",
-          "color": "#ffffff"
-        }
-      ]
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
-    },
-    "owner": "sahil-s-singh",
-    "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "4eaebdb4-e1e5-4de6-8a95-4804206f9e19"
-      }
     }
   }
 }
