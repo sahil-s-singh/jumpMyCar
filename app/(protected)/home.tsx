@@ -1,14 +1,11 @@
-import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, TouchableOpacity, Text, Modal } from "react-native";
 import { useRouter } from "expo-router";
 import Map from "@/components/Map";
+import RequestForm from "@/components/RequestForm";
 
 export default function HomeScreen() {
-  const router = useRouter();
-
-  const handleRequestHelp = async () => {
-    console.log("requested");
-  };
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -16,9 +13,19 @@ export default function HomeScreen() {
         <Map />
       </View>
 
-      <TouchableOpacity style={styles.floatingButton} onPress={handleRequestHelp}>
+      <TouchableOpacity style={styles.floatingButton} onPress={() => setModalVisible(true)}>
         <Text style={styles.buttonText}>Request Help</Text>
       </TouchableOpacity>
+      <Modal visible={modalVisible} transparent animationType="slide">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+              <Text style={styles.closeButtonText}>×</Text>
+            </TouchableOpacity>
+            <RequestForm />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -41,8 +48,8 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 30,
-    elevation: 5, // For Android shadow
-    shadowColor: "#000", // For iOS shadow
+    elevation: 5,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -51,5 +58,24 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    minHeight: 250,
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+    padding: 10,
+  },
+  closeButtonText: {
+    fontSize: 24,
+    color: "#000",
   },
 });
