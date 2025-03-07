@@ -2,8 +2,9 @@ import React, { useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, View, Alert } from "react-native";
 import * as Location from "expo-location";
+import Map from "@/components/Map";
 
-export default function App() {
+export default function MapScreen() {
 	const [region, setRegion] = React.useState({
 		latitude: 0,
 		longitude: 0,
@@ -37,20 +38,7 @@ export default function App() {
 
 	return (
 		<View style={styles.container}>
-			<MapView
-				style={styles.map}
-				initialRegion={region}
-				showsUserLocation={true}
-				region={locationFetched ? region : undefined}
-			>
-				<Marker
-					coordinate={{
-						latitude: region.latitude,
-						longitude: region.longitude,
-					}}
-					title="You are here"
-				/>
-			</MapView>
+			<Map />
 		</View>
 	);
 }

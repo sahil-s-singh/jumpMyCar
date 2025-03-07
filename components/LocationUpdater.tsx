@@ -11,7 +11,7 @@ const LOCATION_TASK_NAME = 'background-location-task';
 
 const LocationUpdater = () => {
 const { user } = useAuthStore()
-
+console.log('hell')
     useEffect(() => {
         
         TaskManager.defineTask(LOCATION_TASK_NAME, async () => {
