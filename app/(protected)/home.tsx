@@ -15,6 +15,13 @@ export default function HomeScreen() {
 				title="Go to Map"
 				onPress={() => router.push("/(protected)/MapScreen")} // Correct path
 			/>
+
+			<Button
+				title="Click here to test notifications"
+				onPress={() => router.push("/NotificationTest")}
+			/>
+
+			<Button title="I need help" onPress={() => router.push("/HelpRequest")} />
 		</View>
 	);
 }

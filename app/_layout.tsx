@@ -73,6 +73,7 @@ function RootLayoutNav({ loaded }: { loaded: boolean }) {
 				<Stack.Screen name="auth/login" />
 				<Stack.Screen name="auth/register" />
 				<Stack.Screen name="(protected)/MapScreen" />
+				<Stack.Screen name="HelpRequest" />
 				{user && (
 					<>
 						<Stack.Screen name="home" />
